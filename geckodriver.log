@@ -18,3 +18,26 @@
 1524239101624	Marionette	INFO	Listening on port 37729
 1524239101696	Marionette	WARN	TLS certificate errors will be ignored for this session
 *** UTM:SVC TimerManager:registerTimer called after profile-before-change notification. Ignoring timer registration for id: telemetry_modules_ping
+1524259926251	geckodriver	INFO	geckodriver 0.20.0
+1524259926270	geckodriver	INFO	Listening on 127.0.0.1:59447
+1524259926684	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.T1953oBXISpx"
+1524259928372	Marionette	INFO	Enabled via --marionette
+1524259931228	Marionette	INFO	Listening on port 36567
+1524259931314	Marionette	WARN	TLS certificate errors will be ignored for this session
+*** UTM:SVC TimerManager:registerTimer called after profile-before-change notification. Ignoring timer registration for id: telemetry_modules_ping
+1524260155462	geckodriver	INFO	geckodriver 0.20.0
+1524260155541	geckodriver	INFO	Listening on 127.0.0.1:45721
+1524260157018	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.UK9S2BDJhxI1"
+1524260158456	Marionette	INFO	Enabled via --marionette
+1524260160782	Marionette	INFO	Listening on port 33449
+1524260160860	Marionette	WARN	TLS certificate errors will be ignored for this session
+*** UTM:SVC TimerManager:registerTimer called after profile-before-change notification. Ignoring timer registration for id: telemetry_modules_ping
+1524260168991	geckodriver::marionette	ERROR	Failed to stop browser process
+1524260184300	geckodriver	INFO	geckodriver 0.20.0
+1524260184308	geckodriver	INFO	Listening on 127.0.0.1:54161
+1524260184452	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.MSKAPOmmWaOs"
+1524260185390	Marionette	INFO	Enabled via --marionette
+1524260187692	Marionette	INFO	Listening on port 35749
+1524260187782	Marionette	WARN	TLS certificate errors will be ignored for this session
+*** UTM:SVC TimerManager:registerTimer called after profile-before-change notification. Ignoring timer registration for id: telemetry_modules_ping
+1524260195977	geckodriver::marionette	ERROR	Failed to stop browser process

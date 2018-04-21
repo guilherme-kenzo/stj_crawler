@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 from sys import argv
 import csv
@@ -34,23 +35,30 @@ class STJ(object):
         self.driver.find_element_by_xpath(acordaos_xpath).click()
 
     def get_info(self):
-        acordaos_xpath = '/html/body/div/div[6]/div/div/div[3]/div[2]/div/div/div/div[3]/div[3]/span[2]/a'
-        self.driver.find_element_by_xpath(acordaos_xpath).click()
-        self.driver.find_element_by_id('listadocumentos')
-        rows = [(i.find_element_by_id('blocoesquerdo').text.replace('"', "'"),
-        i.find_element_by_id('blocodireito').text.replace('"', "'"),
-        i.find_element_by_id('linkdocumento').get_attribute('href'))
-        for i in self.driver.find_elements_by_class_name('linhaPar')]
-        write_csv(argv[1], rows)
+        supradoclist = self.driver.find_element_by_id('listadocumentos')
+        doclist = supradoclist.find_elements_by_xpath('//[@style="position: relative"]')
+        print(doclist)
 
+        # acordaos_xpath = '/html/body/div/div[6]/div/div/div[3]/div[2]/div/div/div/div[3]/div[3]/span[2]/a'
+        # self.driver.find_element_by_xpath(acordaos_xpath).click()
+        # self.driver.find_element_by_id('listadocumentos')
+        # rows = [(i.find_element_by_id('blocoesquerdo').text.replace('"', "'"),
+        # i.find_element_by_id('blocodireito').text.replace('"', "'"),
+        # i.find_element_by_id('linkdocumento').get_attribute('href'))
+        # for i in self.driver.find_elements_by_class_name('linhaPar')]
+        # write_csv(argv[1], rows)
 
     def next_page(self):
         self.driver.find_element_by_class_name('iconeProximaPagina').click()
 
     def auto_get(self):
         while True:
-            self.search()
-            self.get_info()
-            self.next_page()
-
+            try:
+                self.search()
+                self.get_info()
+                self.next_page()
+            except NoSuchElementException as e:
+                print(e)
+                self.driver.quit()
+            
 STJ('a').auto_get()
