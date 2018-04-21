@@ -4,6 +4,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 from sys import argv
 import csv
+import re
+import json
 
 def write_csv(file_name, content):
     with open(file_name, 'a') as f:
@@ -15,6 +17,7 @@ class STJ(object):
     def __init__(self, query):
         self.query = query
         self.startDriver()
+        self.search()
 
     def startDriver(self):
         self.driver = webdriver.Firefox()
@@ -36,16 +39,19 @@ class STJ(object):
 
     def get_info(self):
         supradoclist = self.driver.find_element_by_id('listadocumentos')
-        doclist = supradoclist.find_elements_by_xpath('//[@style="position: relative"]')
-        print(doclist)
-
-        # acordaos_xpath = '/html/body/div/div[6]/div/div/div[3]/div[2]/div/div/div/div[3]/div[3]/span[2]/a'
-        # self.driver.find_element_by_xpath(acordaos_xpath).click()
-        # self.driver.find_element_by_id('listadocumentos')
-        # rows = [(i.find_element_by_id('blocoesquerdo').text.replace('"', "'"),
-        # i.find_element_by_id('blocodireito').text.replace('"', "'"),
-        # i.find_element_by_id('linkdocumento').get_attribute('href'))
-        # for i in self.driver.find_elements_by_class_name('linhaPar')]
+        doclist = self.driver.find_elements_by_tag_name('div')
+        linkre = re.compile('(?<=\(\').+(?=\'\))')
+        for i in doclist:
+            raw_link = i.find_element_by_xpath('//*[@title="Exibir a íntegra do acórdão."]').get_attribute('href')
+            link = linkre.search(raw_link).group()
+            titulos = [j.text for j in i.find_elements_by_class_name('docTitulo')]
+            conteudo = [j.text for j in i.find_elements_by_class_name('docTexto')]
+            if (len(titulos) == len(conteudo)):
+                tmp_dict = {titulos[i]:conteudo[i] for i in range(0, len(titulos))}
+                tmp_dict['link'] = 'http://www.stj.jus.br' + link
+                with open('data.txt', 'a') as f:
+                    json.dump(tmp_dict, f)
+                    f.write('\n')
         # write_csv(argv[1], rows)
 
     def next_page(self):
@@ -54,11 +60,12 @@ class STJ(object):
     def auto_get(self):
         while True:
             try:
-                self.search()
                 self.get_info()
                 self.next_page()
             except NoSuchElementException as e:
                 print(e)
                 self.driver.quit()
-            
+            except:
+                self.auto_get()
+
 STJ('a').auto_get()
